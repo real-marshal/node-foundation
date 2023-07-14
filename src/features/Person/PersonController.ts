@@ -18,6 +18,7 @@ export default function PersonController(f: PersonControllerFastifyInstance) {
           }),
         },
         tags: ['person'],
+        operationId: 'getPerson',
       },
     },
     async (request) => {
@@ -34,6 +35,7 @@ export default function PersonController(f: PersonControllerFastifyInstance) {
           email: Type.String(),
         }),
         tags: ['person'],
+        operationId: 'createPerson',
       },
     },
     async (request) => {
@@ -55,6 +57,7 @@ export default function PersonController(f: PersonControllerFastifyInstance) {
           })
         ),
         tags: ['person'],
+        operationId: 'updatePerson',
       },
     },
     async (request) => {
@@ -70,10 +73,27 @@ export default function PersonController(f: PersonControllerFastifyInstance) {
           id: Type.Integer(),
         }),
         tags: ['person'],
+        operationId: 'deletePerson',
       },
     },
     async (request) => {
       await f.personRepository.delete(request.params.id as PersonId)
+    }
+  )
+
+  f.get(
+    '/count',
+    {
+      schema: {
+        response: {
+          200: Type.Integer(),
+        },
+        tags: ['person'],
+        operationId: 'countPersons',
+      },
+    },
+    async () => {
+      return f.personRepository.countPersons()
     }
   )
 }
